@@ -32,28 +32,50 @@ public class Main {
      */
     public static void main(String[] args) throws JAXBException, IOException {
 
+        
+        //Crea 50 aplicaciones usando el constructor por defecto, guárdalas en una lista y muéstralas por pantalla. 
+        //bucle for para crear 50 aplicaciones por defecto segun el contrusctor
         ArrayList<App> listaApp = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             listaApp.add(new App());
         }
+        //mostrar datos de aplicaciones 
         listaApp.forEach(k -> System.out.println(k));
+        
+                        
+        //Guarda los datos de todas las App de la lista, en un fichero de texto 
+        //llamado aplicacionestxt.csv, dentro del directorio “./appscsv”.
         crearDirectorio("appscsv");
-        crearDirectorio("appscsv2");
-
         escribirLista(listaApp, "./appscsv/aplicacionestxt.csv");
-
+        
+        //Crea un directorio, "./appscsv2", donde se guarden en archivos individuales CSV,
+        //los datos de cada una de las aplicaciones. En este directorio deben generarse 50 
+        //ficheros con el nombre que tenga la aplicación en su atributo.
+        
+        crearDirectorio("appscsv2");
+        
+        //recorro la lista de apps mediante for y voy creando ficheros con los datos de cada una
         for (int i = 0; i < listaApp.size(); i++) {
             String nombreFichero;
             nombreFichero = "./appscsv2/" + listaApp.get(i).getNombre() + ".csv";
             escribirApp(listaApp.get(i), nombreFichero);
 
         }
+        //Guarda los datos de todas las App de la lista, en un fichero XML llamado
+        //aplicacionesxml.xml, dentro del directorio “./appsxml”. Ayúdate del ejemplo
+        //del repositorio de clase. Incluye las dependencias necesarias en el pom.xml
+        
         crearDirectorio("appsxml");
         EscribirCatalogoApp.escribirCatalogo(listaApp);
 
+        //Guarda los datos de todas las App de la lista, en un fichero JSON llamado 
+        //aplicacionesxml.json, dentro del directorio “./appsjson”. Ayúdate del ejemplo 
+        //del repositorio de clase. Incluye las dependencias necesarias en el pom.xml.
         crearDirectorio("appsjson");
         EscribirJson.escribirJson(listaApp);
 
+        
+        //Crea una carpeta “./copias” y realiza una copia de los ficheros anteriores dentro de ella. 
         crearDirectorio("copia");
 
         File carpeta = new File("./appscsv2");
@@ -62,12 +84,17 @@ public class Main {
             copiarFicheros("./appscsv2/" + file.getName(), "./copia/" + file.getName());
         }
         File carpeta1 = new File("./appscsv");
-        File[] arrayFile1 = carpeta.listFiles();
-        for (File file : arrayFile) {
+        File[] arrayFile1 = carpeta1.listFiles();
+        for (File file : arrayFile1) {
             copiarFicheros("./appscsv/" + file.getName(), "./copia/" + file.getName());
         }
 
+        
+        //En una carpeta “./aplicaciones” crea un archivo de texto por cada aplicación
+        //que haya en la lista. El archivo se llamará igual que la app y contendrá los 
+        //datos de la aplicación, separando los campos por el carácter (;).
         crearDirectorio("aplicaciones");
+        creartxt(listaApp);
 
     }
 
@@ -88,8 +115,9 @@ public class Main {
     }
 
     public static void escribirLista(ArrayList<App> lista, String fichero) {
-
-        String tmp = "";
+        //metodo que crea el fichero segun nombre recibido, va añadiendo al flujo 
+        //los datos de las apps de la lista y cuando termina lo añade al fichero
+       
         try (BufferedWriter flujo = new BufferedWriter(new FileWriter(fichero))) {
             for (int i = 0; i < lista.size(); i++) {
                 flujo.write(lista.get(i).toString());
@@ -106,8 +134,8 @@ public class Main {
     }
 
     public static void escribirApp(App app, String fichero) {
-
-        String tmp = "";
+        //como metodo anterior, crea un flujo que rellena con los datos de la app y la escribe
+       
         try (BufferedWriter flujo = new BufferedWriter(new FileWriter(fichero))) {
             flujo.write(app.toString());
             flujo.newLine();
@@ -152,9 +180,9 @@ public class Main {
 
         String tmp = "";
         for (int i = 0; i < lista.size(); i++) {
-            try (BufferedWriter flujo = new BufferedWriter(new FileWriter(lista.get(i).getNombre()))) {
+            try (BufferedWriter flujo = new BufferedWriter(new FileWriter("./aplicaciones/"+lista.get(i).getNombre()+".txt"))) {
 
-                tmp=lista.get(i).getDescripcion()+";"+lista.get(i).getNombre();
+                tmp=lista.get(i).getDescripcion()+";"+lista.get(i).getNombre()+";"+ lista.get(i).getCodigo()+";"+ lista.get(i).getDescargas()+";"+ lista.get(i).getTam();
                 flujo.write(tmp);
 
                 flujo.newLine();
