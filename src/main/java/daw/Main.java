@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JAXBException {
 
         ArrayList<App> listaApp = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -45,6 +46,9 @@ public class Main {
             
             
         }
+        crearDirectorio("appsxml");
+        EscribirCatalogoApp.escribirCatalogo(listaApp);
+        
         
     }
 
