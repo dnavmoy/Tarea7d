@@ -24,7 +24,7 @@ public class App {
     public App() {
         Random r = new Random();
         this.codigo=instancia++;
-        this.nombre="app"+this.codigo+ (char)r.nextInt(96,123);
+        this.nombre="app"+this.codigo+ (char)r.nextInt(97,123);
         this.descripcion=arrayDescrip[r.nextInt(0,10)];
         this.tam=r.doubles(1, 100, 1025).findFirst().getAsDouble();        
         this.descargas=r.ints(1, 0, 50001).findFirst().getAsInt();
